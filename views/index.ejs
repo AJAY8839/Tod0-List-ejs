@@ -1,0 +1,92 @@
+<%- include("partials/header") %>
+
+<section class="container">
+  <!-- Add Task Form -->
+  <form action="/add" method="POST" class="todo-form">
+    <input type="text" name="task" placeholder="Add a new task..." />
+    <select name="priority">
+      <option value="Low">Low</option>
+      <option value="Medium">Medium</option>
+      <option value="High">High</option>
+    </select>
+    <button type="submit">Add</button>
+  </form>
+
+  <!-- Filter Buttons -->
+  <div class="filters">
+    <a href="/">All</a>
+    <a href="/?priority=High">High</a>
+    <a href="/?priority=Medium">Medium</a>
+    <a href="/?priority=Low">Low</a>
+  </div>
+
+  <!-- Task List -->
+  <ul class="todo-list">
+    <% todos.forEach(todo => { %>
+      <li class="<%= todo.completed ? 'completed' : '' %>">
+        <!-- Edit Form -->
+        <form action="/edit" method="POST" class="edit-form">
+          <input type="hidden" name="id" value="<%= todo.id %>" />
+          
+          <input 
+            type="text" 
+            name="updatedTask" 
+            value="<%= todo.task %>" 
+            readonly 
+            class="task-input"
+          />
+
+          <select name="priority" disabled>
+            <option value="Low" <%= todo.priority === 'Low' ? 'selected' : '' %>>Low</option>
+            <option value="Medium" <%= todo.priority === 'Medium' ? 'selected' : '' %>>Medium</option>
+            <option value="High" <%= todo.priority === 'High' ? 'selected' : '' %>>High</option>
+          </select>
+
+          <button type="button" class="edit-btn">Edit</button>
+          <button type="submit" class="save-btn" style="display: none;">Save</button>
+        </form>
+
+        <!-- Delete Form -->
+        <form action="/delete" method="POST">
+          <input type="hidden" name="id" value="<%= todo.id %>" />
+          <button type="submit">Delete</button>
+        </form>
+
+        <!-- Completion Checkbox -->
+        <form action="/toggle" method="POST">
+          <input type="hidden" name="id" value="<%= todo.id %>" />
+          <input type="checkbox" onchange="this.form.submit()" <%= todo.completed ? 'checked' : '' %> />
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+</section>
+
+<%- include("partials/footer") %>
+
+<!-- Edit Activation Script -->
+<script>
+  document.querySelectorAll('.edit-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const form = btn.closest('.edit-form');
+      form.querySelector('.task-input').removeAttribute('readonly');
+      form.querySelector('select').removeAttribute('disabled');
+      form.querySelector('.save-btn').style.display = 'inline-block';
+      btn.style.display = 'none';
+    });
+  });
+
+
+   const todoForm = document.querySelector(".todo-form");
+
+  if (todoForm) {
+    todoForm.addEventListener("submit", function (e) {
+      const taskInput = this.querySelector('input[name="task"]');
+      if (!taskInput.value.trim()) {
+        e.preventDefault(); // stop form from submitting
+        alert("Please enter a task.");
+      }
+    });
+  }
+
+</script>
