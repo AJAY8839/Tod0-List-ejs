@@ -89,3 +89,8 @@ button:hover {
   color: #333;
   font-weight: 500;
 }
+
+.completed .task-input {
+  text-decoration: line-through;
+  opacity: 0.6;
+}
