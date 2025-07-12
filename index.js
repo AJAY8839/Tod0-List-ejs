@@ -13,7 +13,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.get("/", (req, res) => {
   const priority = req.query.priority;
   const filteredTodos = priority ? todos.filter(todo => todo.priority === priority) : todos;
-  res.render("index", { todos: filteredTodos });
+  res.render("app", { todos: filteredTodos });
 });
 
 // Add task route
