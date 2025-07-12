@@ -4,7 +4,7 @@ import express from "express";
 import mongoose from "mongoose";
 
 const app = express();
-const port = 3000;
+const port = 3000 || 5000;
 
 // ✅ MongoDB Atlas Connection
 mongoose.connect("mongodb+srv://rr9133238:sRSTRtEwA1YS4SNq@cluster0.ss2voqd.mongodb.net/?retryWrites=true&w=majority&appName=TodoList", {
