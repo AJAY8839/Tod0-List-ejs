@@ -6,19 +6,19 @@ import mongoose from "mongoose";
 const app = express();
 const port = 3000 || 5000;
 
-// ✅ MongoDB Atlas Connection
+//  MongoDB Atlas Connection
 mongoose.connect("mongodb+srv://rr9133238:sRSTRtEwA1YS4SNq@cluster0.ss2voqd.mongodb.net/?retryWrites=true&w=majority&appName=TodoList", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
 }).then(() => {
-  console.log("✅ Connected to MongoDB Atlas");
+  console.log(" Connected to MongoDB Atlas");
 }).catch((err) => {
-  console.error("❌ MongoDB connection error:", err);
+  console.error(" MongoDB connection error:", err);
 });
 
 
 
-// ✅ Schema
+//  Schema
 const todoSchema = new mongoose.Schema({
   title: String,
   priority: String,
@@ -27,12 +27,12 @@ const todoSchema = new mongoose.Schema({
 
 const Todo = mongoose.model("Todo", todoSchema);
 
-// ✅ Middleware
+//  Middleware
 app.set("view engine", "ejs");
 app.use(express.static("public"));
 app.use(bodyParser.urlencoded({ extended: true }));
 
-// ✅ Home
+//  Home
 app.get("/", async (req, res) => {
   const priority = req.query.priority;
   const filter = priority ? { priority } : {};
@@ -40,7 +40,7 @@ app.get("/", async (req, res) => {
   res.render("app", { todos, message: req.query.message });
 });
 
-// ✅ Add Task
+//  Add Task
 app.post("/add", async (req, res) => {
   const { title, priority } = req.body;
   if (!title.trim()) {
@@ -51,7 +51,7 @@ app.post("/add", async (req, res) => {
   res.redirect("/?message=added");
 });
 
-// ✅ Edit Task
+//  Edit Task
 app.post("/edit", async (req, res) => {
   const { id, updatedTask, priority } = req.body;
   await Todo.findByIdAndUpdate(id, {
@@ -61,13 +61,13 @@ app.post("/edit", async (req, res) => {
   res.redirect("/?message=edited");
 });
 
-// ✅ Delete Task
+//  Delete Task
 app.post("/delete", async (req, res) => {
   await Todo.findByIdAndDelete(req.body.id);
   res.redirect("/?message=deleted");
 });
 
-// ✅ Toggle Completion
+//  Toggle Completion
 app.post("/toggle", async (req, res) => {
   const todo = await Todo.findById(req.body.id);
   if (todo) {
@@ -77,4 +77,4 @@ app.post("/toggle", async (req, res) => {
   res.redirect("/");
 });
 
-app.listen(port, () => console.log(`✅ Server running at http://localhost:${port}`));
+app.listen(port, () => console.log(` Server running at http://localhost:${port}`));
