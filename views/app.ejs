@@ -49,7 +49,7 @@
 
 <%- include("partials/footer") %>
 
-<!-- ✅ Script for Alerts and Edit -->
+<!-- Script for Alerts and Edit -->
 <script>
   // Enable editing
   document.querySelectorAll('.edit-btn').forEach((btn) => {
@@ -84,15 +84,15 @@
     });
   });
 
-  // ✅ Show success messages
+  //  Show success messages
   const urlParams = new URLSearchParams(window.location.search);
   const message = urlParams.get("message");
   if (message === "deleted") {
-    alert("✅ Task deleted successfully!");
+    alert(" Task deleted successfully!");
   } else if (message === "edited") {
-    alert("✅ Task edited successfully!");
+    alert(" Task edited successfully!");
   } else if (message === "added") {
-    alert("✅ Task added successfully!");
+    alert(" Task added successfully!");
   }
 
   // Clean URL
